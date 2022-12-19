@@ -68,6 +68,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="flatMapLatest" />
+
+            <TextView
+                android:id="@+id/reduceTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="reduce" />
+
+            <TextView
+                android:id="@+id/foldTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="fold" />
+
+            <TextView
+                android:id="@+id/scanTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="scan" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

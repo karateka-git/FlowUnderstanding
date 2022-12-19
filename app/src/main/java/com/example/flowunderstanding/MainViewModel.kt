@@ -1,9 +1,7 @@
 package com.example.flowunderstanding
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 class MainViewModel : ViewModel() {
@@ -55,6 +53,26 @@ class MainViewModel : ViewModel() {
         flow2.map { second ->
             "$first + $second = ${first + second}"
         }
+    }
+
+    val flowReduce = flow {
+        emit(
+            flow1.reduce { accumulator, value ->
+                accumulator + value
+            }
+        )
+    }
+
+    val flowFold = flow {
+        emit(
+            flow1.fold(0) { accumulator, value ->
+                accumulator + value
+            }
+        )
+    }
+
+    val flowScan = flow1.scan(0) { accumulator, value ->
+        accumulator + value
     }
 
     private fun getCharInfinityFlow(text: String) = flow {

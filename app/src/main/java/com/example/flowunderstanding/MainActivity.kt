@@ -25,6 +25,30 @@ class MainActivity : AppCompatActivity() {
     private fun initObservers() {
         helloTextObserve()
         joinMethodsObserver()
+        accumulatorObserver()
+    }
+
+    private fun accumulatorObserver() {
+        viewModel.apply {
+            binding.reduceTesting.apply {
+                text = String().println("reduce:")
+                flowReduce.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.foldTesting.apply {
+                text = String().println("fold:")
+                flowFold.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.scanTesting.apply {
+                text = String().println("scan:")
+                flowScan.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+        }
     }
 
     private fun joinMethodsObserver() {
