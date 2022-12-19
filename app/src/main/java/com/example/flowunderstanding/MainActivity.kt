@@ -47,6 +47,30 @@ class MainActivity : AppCompatActivity() {
                     text = text.toString().println(it)
                 }.launchIn(lifecycleScope)
             }
+            binding.flatMapConcatTesting.apply {
+                text = String().println("flatMapConcat:")
+                flowFlatMapConcat.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.flatMapMergeTesting.apply {
+                text = String().println("flatMapMerge:")
+                flowFlatMapMerge.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.flatMapMergeWithConcurrencyTesting.apply {
+                text = String().println("flatMapMerge").println("with concurrency = 2")
+                flowFlatMapMergeWithConcurrency.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.flatMapLatestTesting.apply {
+                text = String().println("flatMapLatest")
+                flowFlatMapLatest.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
         }
     }
 

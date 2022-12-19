@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/helloText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Hello World!" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/helloTextReverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="!dlroW olleH" />
+            <TextView
+                android:id="@+id/helloText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Hello World!" />
 
-        <TextView
-            android:id="@+id/mergeTesting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="merge" />
+            <TextView
+                android:id="@+id/helloTextReverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="!dlroW olleH" />
 
-        <TextView
-            android:id="@+id/zipTesting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="zip" />
+            <TextView
+                android:id="@+id/mergeTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="merge" />
 
-        <TextView
-            android:id="@+id/combineTesting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="combine" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/zipTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="zip" />
 
+            <TextView
+                android:id="@+id/combineTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="combine" />
+
+            <TextView
+                android:id="@+id/flatMapConcatTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="flatMapConcat" />
+
+            <TextView
+                android:id="@+id/flatMapMergeTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="flatMapMerge" />
+
+            <TextView
+                android:id="@+id/flatMapMergeWithConcurrencyTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="flatMapMergeWithConcurrency" />
+
+            <TextView
+                android:id="@+id/flatMapLatestTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="flatMapLatest" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

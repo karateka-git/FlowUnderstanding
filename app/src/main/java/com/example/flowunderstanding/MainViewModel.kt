@@ -1,6 +1,8 @@
 package com.example.flowunderstanding
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
@@ -25,6 +27,34 @@ class MainViewModel : ViewModel() {
     }
     val flowCombine = flow1.combine(flow2) { first, second ->
         "$first + $second = ${first + second}"
+    }
+
+    @OptIn(FlowPreview::class)
+    val flowFlatMapConcat = flow1.flatMapConcat { first ->
+        flow2.map { second ->
+            "$first + $second = ${first + second}"
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    val flowFlatMapMerge = flowOf(1, 2, 3).flatMapMerge { first ->
+        flow2.map { second ->
+            "$first + $second = ${first + second}"
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    val flowFlatMapMergeWithConcurrency = flowOf(1, 2, 3).flatMapMerge(2) { first ->
+        flow2.map { second ->
+            "$first + $second = ${first + second}"
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val flowFlatMapLatest = flowOf(1, 2, 3).flatMapLatest { first ->
+        flow2.map { second ->
+            "$first + $second = ${first + second}"
+        }
     }
 
     private fun getCharInfinityFlow(text: String) = flow {
