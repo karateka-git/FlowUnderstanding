@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.flowunderstanding.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlin.coroutines.coroutineContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         helloTextObserve()
+        joinMethodsObserver()
+    }
+
+    private fun joinMethodsObserver() {
+        viewModel.apply {
+            binding.mergeTesting.apply {
+                text = String().println("merge:")
+                flowMerge.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.zipTesting.apply {
+                text = String().println("zip:")
+                flowZip.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.combineTesting.apply {
+                text = String().println("combine:")
+                flowCombine.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+        }
     }
 
     private fun helloTextObserve() {
@@ -62,4 +87,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
     }
+
+    private fun String.println(str: Any) =
+        plus(str.toString()).plus("\n")
 }

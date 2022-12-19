@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/helloText"
@@ -23,6 +23,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="!dlroW olleH" />
+
+        <TextView
+            android:id="@+id/mergeTesting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="merge" />
+
+        <TextView
+            android:id="@+id/zipTesting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="zip" />
+
+        <TextView
+            android:id="@+id/combineTesting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="combine" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
