@@ -18,6 +18,10 @@ class MainViewModel : ViewModel() {
 
     private val flow1 = flowOf(1, 2, 3).onEach { delay(1500) }
     private val flow2 = flowOf(-1, -2, -3, -4).onEach { delay(1000) }
+    private val flow3 = flowOf(1, 2, 3).onEach {
+        delay(100)
+        println("${Thread.currentThread()} VLADISLAV viewModel emit item $it")
+    }
 
     val flowMerge = merge(flow1, flow2)
     val flowZip = flow1.zip(flow2) { first, second ->
@@ -73,6 +77,20 @@ class MainViewModel : ViewModel() {
 
     val flowScan = flow1.scan(0) { accumulator, value ->
         accumulator + value
+    }
+
+    val flowNotBuffered = flow3
+
+    val flowWithBuffer = flow3.buffer()
+
+    val flowWithConflate = flow3.conflate() // == buffer with DROP_OLDEST
+
+    val flowWithFlowOn = flow3.map {
+        println("${Thread.currentThread()} VLADISLAV viewModel first map item $it")
+        it
+    }.flowOn(Dispatchers.IO).map {
+        println("${Thread.currentThread()} VLADISLAV viewModel second map item $it")
+        it
     }
 
     private fun getCharInfinityFlow(text: String) = flow {

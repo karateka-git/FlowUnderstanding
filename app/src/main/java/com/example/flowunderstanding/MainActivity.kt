@@ -5,9 +5,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.flowunderstanding.databinding.ActivityMainBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.runBlocking
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +30,37 @@ class MainActivity : AppCompatActivity() {
         helloTextObserve()
         joinMethodsObserver()
         accumulatorObserver()
+        bufferedObserver()
+    }
+
+    private fun bufferedObserver() {
+        viewModel.apply {
+            collectFlow(flowNotBuffered, "VLADISLAV NOT_BUFFERED")
+            collectFlow(flowWithBuffer, "VLADISLAV BUFFERED")
+            collectFlow(flowWithConflate, "VLADISLAV CONFLATE")
+            collectFlow(flowWithFlowOn, "VLADISLAV FLOW_ON")
+            runBlocking {
+                val time = measureTimeMillis {
+                    flowNotBuffered.collectLatest {
+                        println("${Thread.currentThread()} VLADISLAV COLLECT_LATEST activity receive item $it")
+                        println("${Thread.currentThread()} VLADISLAV COLLECT_LATEST activity restart")
+                        delay(300)
+                        println("${Thread.currentThread()} VLADISLAV COLLECT_LATEST activity collected item $it")
+                    }
+                }
+                println("${Thread.currentThread()} VLADISLAV COLLECT_LATEST activity collected time in $time ms")
+            }
+        }
+    }
+
+    private fun collectFlow(flow: Flow<Int>, tag: String) = runBlocking {
+        val time = measureTimeMillis {
+            flow.collect {
+                delay(300)
+                println("${Thread.currentThread()} $tag activity receive item $it")
+            }
+        }
+        println("${Thread.currentThread()} $tag activity collected time in $time ms")
     }
 
     private fun accumulatorObserver() {
