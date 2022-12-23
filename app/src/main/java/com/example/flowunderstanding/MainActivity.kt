@@ -5,11 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.flowunderstanding.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
 
@@ -31,6 +30,38 @@ class MainActivity : AppCompatActivity() {
         joinMethodsObserver()
         accumulatorObserver()
         bufferedObserver()
+        exceptionObserver()
+    }
+
+    private fun exceptionObserver() {
+//        lifecycleScope.launch {
+//            try {
+//                viewModel.flowWithException.collect {
+//                    println("before exception collect item $it")
+//                }
+//            } catch (exception: Exception) {
+//                println("collect exception with message '${exception.message}'")
+//            }
+//        }
+
+//        viewModel.flowWithException
+//            .onEach {
+//                println("before exception collect item $it")
+//            }
+//            .catch { exception ->
+//                println("collect exception with message '${exception.message}'")
+//            }
+//            .launchIn(lifecycleScope)
+
+        lifecycleScope.launch(
+            CoroutineExceptionHandler { _, throwable ->
+                println("collect exception with message '${throwable.message}'")
+            }
+        ) {
+            viewModel.flowWithException.collect {
+                println("before exception collect item $it")
+            }
+        }
     }
 
     private fun bufferedObserver() {

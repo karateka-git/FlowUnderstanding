@@ -23,6 +23,11 @@ class MainViewModel : ViewModel() {
         println("${Thread.currentThread()} VLADISLAV viewModel emit item $it")
     }
 
+    val flowWithException: Flow<Int> = flow {
+        emit(1)
+        throw Exception("exception")
+    }
+
     val flowMerge = merge(flow1, flow2)
     val flowZip = flow1.zip(flow2) { first, second ->
         "$first + $second = ${first + second}"
