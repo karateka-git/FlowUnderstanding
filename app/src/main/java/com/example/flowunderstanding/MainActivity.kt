@@ -7,7 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.flowunderstanding.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
@@ -31,6 +34,81 @@ class MainActivity : AppCompatActivity() {
         accumulatorObserver()
         bufferedObserver()
         exceptionObserver()
+        sharedFlowObserver()
+    }
+
+    private fun sharedFlowObserver() {
+        viewModel.apply {
+            startSuspendSharedFlow()
+            binding.suspendSharedFlowTesting.apply {
+                text = String().println("suspend shared flow:")
+                suspendSharedFlow.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.replaySuspendSharedFlowTesting.apply {
+                text = String().println("replay suspend shared flow:")
+                replaySuspendSharedFlow.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+            binding.extraBufferSuspendSharedFlowTesting.apply {
+                text = String().println("extra buffer suspend shared flow:")
+                extraBufferSuspendSharedFlow.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+
+            lifecycleScope.launch {
+                startDropOldestSharedFlow()
+                delay(2000)
+                binding.dropOldestSharedFlowTesting.apply {
+                    text = String().println("drop oldest shared flow:")
+                    text = text.toString().println("запрещено, т.к. буфер равен нулю")
+                    // запрещено, т.к. буфер равен нулю
+//                dropOldestSharedFlow.onEach {
+//                    text = text.toString().println(it)
+//                }.launchIn(lifecycleScope)
+                }
+                binding.replayDropOldestSharedFlowTesting.apply {
+                    text = String().println("replay drop oldest shared flow:")
+                    replayDropOldestSharedFlow.onEach {
+                        text = text.toString().println(it)
+                    }.launchIn(lifecycleScope)
+                }
+                binding.extraBufferDropOldestSharedFlowTesting.apply {
+                    text = String().println("extra buffer drops oldest shared flow:")
+                    extraBufferDropOldestSharedFlow.onEach {
+                        text = text.toString().println(it)
+                    }.launchIn(lifecycleScope)
+                }
+            }
+
+            lifecycleScope.launch {
+                startDropLatestSharedFlow()
+                delay(2000)
+                binding.dropLatestSharedFlowTesting.apply {
+                    text = String().println("drop latest shared flow:")
+                    text = text.toString().println("запрещено, т.к. буфер равен нулю")
+                    // запрещено, т.к. буфер равен нулю
+//                dropOldestSharedFlow.onEach {
+//                    text = text.toString().println(it)
+//                }.launchIn(lifecycleScope)
+                }
+                binding.replayDropLatestSharedFlowTesting.apply {
+                    text = String().println("replay drop latest shared flow:")
+                    replayDropLatestSharedFlow.onEach {
+                        text = text.toString().println(it)
+                    }.launchIn(lifecycleScope)
+                }
+                binding.extraBufferDropLatestSharedFlowTesting.apply {
+                    text = String().println("extra buffer drops latest shared flow:")
+                    extraBufferDropLatestSharedFlow.onEach {
+                        text = text.toString().println(it)
+                    }.launchIn(lifecycleScope)
+                }
+            }
+        }
     }
 
     private fun exceptionObserver() {

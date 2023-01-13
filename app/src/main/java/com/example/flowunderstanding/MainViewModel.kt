@@ -1,7 +1,9 @@
 package com.example.flowunderstanding
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 class MainViewModel : ViewModel() {
@@ -96,6 +98,60 @@ class MainViewModel : ViewModel() {
     }.flowOn(Dispatchers.IO).map {
         println("${Thread.currentThread()} VLADISLAV viewModel second map item $it")
         it
+    }
+
+    private val _suspendMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow()
+    val suspendSharedFlow: SharedFlow<Int> = _suspendMutableSharedFlow
+    private val _replaySuspendMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(replay = 1)
+    val replaySuspendSharedFlow: SharedFlow<Int> = _replaySuspendMutableSharedFlow
+    private val _extraBufferSuspendMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(extraBufferCapacity = 1)
+    val extraBufferSuspendSharedFlow: SharedFlow<Int> = _extraBufferSuspendMutableSharedFlow
+
+    // запрещено, т.к. буфер равен нулю
+//    private val _dropOldestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(onBufferOverflow = BufferOverflow.DROP_OLDEST)
+//    val dropOldestSharedFlow: SharedFlow<Int> = _dropOldestMutableSharedFlow
+    private val _replayDropOldestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val replayDropOldestSharedFlow: SharedFlow<Int> = _replayDropOldestMutableSharedFlow
+    private val _extraBufferDropOldestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val extraBufferDropOldestSharedFlow: SharedFlow<Int> = _extraBufferDropOldestMutableSharedFlow
+
+    // запрещено, т.к. буфер равен нулю
+//    private val _dropLatestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(onBufferOverflow = BufferOverflow.DROP_Latest)
+//    val dropLatestSharedFlow: SharedFlow<Int> = _dropLatestMutableSharedFlow
+    private val _replayDropLatestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    val replayDropLatestSharedFlow: SharedFlow<Int> = _replayDropLatestMutableSharedFlow
+    private val _extraBufferDropLatestMutableSharedFlow: MutableSharedFlow<Int> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    val extraBufferDropLatestSharedFlow: SharedFlow<Int> = _extraBufferDropLatestMutableSharedFlow
+
+    fun startSuspendSharedFlow() {
+        viewModelScope.launch {
+            for (i in 1..5) {
+                _suspendMutableSharedFlow.emit(i)
+                _replaySuspendMutableSharedFlow.emit(i)
+                _extraBufferSuspendMutableSharedFlow.emit(i)
+                delay(1000)
+            }
+        }
+    }
+
+    fun startDropOldestSharedFlow() {
+        viewModelScope.launch {
+            for (i in 1..5) {
+                _replayDropOldestMutableSharedFlow.emit(i)
+                _extraBufferDropOldestMutableSharedFlow.emit(i)
+                delay(1000)
+            }
+        }
+    }
+
+    fun startDropLatestSharedFlow() {
+        viewModelScope.launch {
+            for (i in 1..5) {
+                _replayDropLatestMutableSharedFlow.emit(i)
+                _extraBufferDropLatestMutableSharedFlow.emit(i)
+                delay(1000)
+            }
+        }
     }
 
     private fun getCharInfinityFlow(text: String) = flow {

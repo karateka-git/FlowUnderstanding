@@ -86,6 +86,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="scan" />
+
+            <TextView
+                android:id="@+id/suspendSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="suspend shared flow" />
+
+            <TextView
+                android:id="@+id/replaySuspendSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="replay suspend shared flow" />
+
+            <TextView
+                android:id="@+id/extraBufferSuspendSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="extra buffer suspend shared flow" />
+
+            <TextView
+                android:id="@+id/dropOldestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="drop oldest shared flow" />
+
+            <TextView
+                android:id="@+id/replayDropOldestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="replay drop oldest shared flow" />
+
+            <TextView
+                android:id="@+id/extraBufferDropOldestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="extra buffer drop oldest shared flow" />
+
+
+            <TextView
+                android:id="@+id/dropLatestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="drop latest shared flow" />
+
+            <TextView
+                android:id="@+id/replayDropLatestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="replay drop latest shared flow" />
+
+            <TextView
+                android:id="@+id/extraBufferDropLatestSharedFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="extra buffer drop latest shared flow" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
