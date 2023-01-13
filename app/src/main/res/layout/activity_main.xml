@@ -141,6 +141,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="extra buffer drop latest shared flow" />
+
+            <TextView
+                android:id="@+id/stateFlowTesting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="state flow" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

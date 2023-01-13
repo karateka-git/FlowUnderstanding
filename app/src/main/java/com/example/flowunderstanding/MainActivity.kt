@@ -35,6 +35,19 @@ class MainActivity : AppCompatActivity() {
         bufferedObserver()
         exceptionObserver()
         sharedFlowObserver()
+        stateFlowObserver()
+    }
+
+    private fun stateFlowObserver() {
+        viewModel.apply {
+            startStateFlow()
+            binding.stateFlowTesting.apply {
+                text = String().println("state flow:")
+                stateFlow.onEach {
+                    text = text.toString().println(it)
+                }.launchIn(lifecycleScope)
+            }
+        }
     }
 
     private fun sharedFlowObserver() {

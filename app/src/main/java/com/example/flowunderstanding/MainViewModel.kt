@@ -154,6 +154,18 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    private val _mutableStateFlow: MutableStateFlow<Int> = MutableStateFlow(1)
+    val stateFlow = _mutableStateFlow
+
+    fun startStateFlow() {
+        viewModelScope.launch {
+            listOf(1, 1, 1, 2, 2, 3, 4).forEach {
+                _mutableStateFlow.emit(it)
+                delay(1000)
+            }
+        }
+    }
+
     private fun getCharInfinityFlow(text: String) = flow {
         while (true) {
             text.forEach {
