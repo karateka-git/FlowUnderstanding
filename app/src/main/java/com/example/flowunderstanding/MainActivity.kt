@@ -1,6 +1,7 @@
 package com.example.flowunderstanding
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -55,13 +56,26 @@ class MainActivity : AppCompatActivity() {
             startSuspendSharedFlow()
             binding.suspendSharedFlowTesting.apply {
                 text = String().println("suspend shared flow:")
-                suspendSharedFlow.onEach {
-                    text = text.toString().println(it)
-                }.launchIn(lifecycleScope)
+                lifecycleScope.launch {
+                    suspendSharedFlow.collect {
+                        delay(2000)
+                        text = text.toString().println(it)
+                    }
+                }
+            }
+            binding.suspendSharedFlowTesting1.apply {
+                text = String().println("suspend shared flow 1:")
+                lifecycleScope.launch {
+                    suspendSharedFlow.collect {
+                        delay(5000)
+                        text = text.toString().println(it)
+                    }
+                }
             }
             binding.replaySuspendSharedFlowTesting.apply {
                 text = String().println("replay suspend shared flow:")
                 replaySuspendSharedFlow.onEach {
+                    delay(1000)
                     text = text.toString().println(it)
                 }.launchIn(lifecycleScope)
             }

@@ -94,6 +94,12 @@
                 tools:text="suspend shared flow" />
 
             <TextView
+                android:id="@+id/suspendSharedFlowTesting1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="suspend shared flow1" />
+
+            <TextView
                 android:id="@+id/replaySuspendSharedFlowTesting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

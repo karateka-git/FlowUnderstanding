@@ -2,9 +2,32 @@ package com.example.flowunderstanding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.fold
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.reduce
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
@@ -126,8 +149,18 @@ class MainViewModel : ViewModel() {
     fun startSuspendSharedFlow() {
         viewModelScope.launch {
             for (i in 1..5) {
+                delay(1000)
                 _suspendMutableSharedFlow.emit(i)
+            }
+        }
+        viewModelScope.launch {
+            for (i in 1..5) {
                 _replaySuspendMutableSharedFlow.emit(i)
+            }
+        }
+
+        viewModelScope.launch {
+            for (i in 1..5) {
                 _extraBufferSuspendMutableSharedFlow.emit(i)
                 delay(1000)
             }
